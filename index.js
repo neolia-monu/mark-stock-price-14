@@ -15,14 +15,14 @@ function calculateProfitAndLoss(initial, quantity, current) {
 
     if (initial > current) {
         var loss = (initial - current) * quantity;
-        var lossPercentage = (loss / initial) * 100;
+        var lossPercentage = (loss / (initial * quantity)) * 100;
         // console.log(lossPercentage.toFixed(2));
         lossPercentage = lossPercentage.toFixed(2);
         showMessage(`Hey the loss is ${loss} and the loss percentage is ${lossPercentage}%`, false);
 
     } else if (current > initial) {
         var profit = (current - initial) * quantity;
-        var profitPercentage = (profit / initial) * 100;
+        var profitPercentage = (profit / (initial * quantity)) * 100;
         profitPercentage = profitPercentage.toFixed(2);
         showMessage(`Hey the profit is ${profit} and the profit percentage is ${profitPercentage}%`, true);
 
@@ -36,7 +36,9 @@ function generateResult() {
     var userQuantity = Number(quantityStocks.value);
     var userCurrent = Number(currentPrice.value);
 
-    if (userInitial && userQuantity && userCurrent) {
+    if (userInitial <= 0 || userCurrent <= 0 || userQuantity <= 0)
+        showMessage("User Input should be non-zero or positive value");
+    else if (userInitial && userQuantity && userCurrent) {
         calculateProfitAndLoss(userInitial, userQuantity, userCurrent);
         // showMessage(msg, true);
     } else
